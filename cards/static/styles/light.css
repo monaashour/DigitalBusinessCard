@@ -1,0 +1,197 @@
+body{
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: left;
+}
+label {
+    margin-bottom: 0;
+    font-size: 2.8rem;
+}
+.parentContainer{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    
+}
+.cardMainDiv{
+    position: relative;
+    min-height: 75vh;
+    height: fit-content;
+    width: 95vw;
+    top: 10vh;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid black;
+    align-self: center;
+    justify-content: space-between;
+    row-gap: 4vw;
+}
+.topDiv{
+    padding-top: 8vw;
+    padding-inline: 5vw;
+}
+.bottomDiv{
+    padding-left: 5vw;
+    padding-right: 1vw;
+}
+.logoDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+}
+.logo{
+    width:200px; 
+    height:200px;
+}
+.toggle-icon{
+    width: 80px;
+    height: 40px;
+}
+.toggleDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.toggleText{
+    font-size: 1.9rem;
+    padding-right: 15px;
+}
+.infoDiv{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-top: 6vh;
+    padding-bottom: 3vh;
+}
+.jobTitlesDiv{
+    display: flex;
+    flex-direction: column;
+    color: #ff7900;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+.contactInfoDiv{
+    display: flex;
+    flex-direction: row;
+    column-gap: 1.5vw;
+    justify-content: space-evenly;
+    position: relative;
+}
+.contactInfoCardDiv{
+    display: flex; 
+    flex-direction: column;  
+    align-items: center; 
+    /* justify-content: center; */
+    flex: 1;
+    width:30%;
+}
+.responsibiltyDiv{
+    display: flex;
+    flex-direction: row;
+    column-gap: 4vw;
+    justify-content: space-evenly;
+    position: relative;
+}
+.responsibiltyDiv2{
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    position: relative;
+}
+.ib-footer{
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+    font-size: bold;
+    padding-bottom: 1vh;
+}
+.fullNameLabel{
+    font-size: 4rem;
+    font-weight: bold;
+    padding-bottom: 2rem;
+}
+p{
+    text-align: center;
+    font-size: 2.19rem;
+    word-wrap: break-word;
+    width: 100%;
+    
+}
+.icons{
+    font-size: 3rem;
+}
+.iconsLabel{
+    margin-bottom: 0;
+    margin-top: 10%;
+    font-size: 2rem;
+}
+.contact-image{
+    width: 7rem;
+    height: 7rem;
+    padding-top: 0;
+}
+.qrDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.qrText{
+    padding-bottom: 0;
+    margin: 0;
+    font-size: 1.2rem;
+}
+@media screen and (max-width:500px) {
+    .jobTitlesDiv{
+        font-size: 1rem;
+        padding-left: 3.5vw;
+    }
+    .fullNameLabel{
+        font-size: 1.2rem;
+        padding-left: 3vw;
+    }
+    p{
+        font-size: 1rem;
+        word-wrap: break-word;
+    }
+    #responsibiltyP{
+        color: grey;
+        text-align: left;
+        font-weight: bold;
+        word-wrap: break-word;
+        width: 100%;
+        font-size: 0.8rem;
+        padding-left: 3.5vw;
+    }
+    
+    .ib-footer{
+        font-size: 0.8rem;
+        color: black;
+        font-size: bold;
+    }
+    .contactInfoDiv{
+        display: flex;
+        flex-direction: row;
+        row-gap: 0.5vh;
+    }
+    .contactInfoCardDiv{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        row-gap: 3vw;
+    }
+    .icons{
+        font-size: 1.2rem;
+    }
+    .contact-image{
+        height:50px;
+        width:50px;
+    }
+}
