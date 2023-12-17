@@ -1,60 +1,61 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/light.css' %}">
+        <link rel="stylesheet" type="text/css" href="/static/styles/light.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>Business Card</title>
     </head>
     <body>
-        <h3>Hi {{ name }}</h3>
         <div class="parentContainer">
             <div class="cardMainDiv">
                 <div class="topDiv">
                     <div class="logoDiv"> 
-                        <img src="static/images/obs_master.png" class="logo"> 
+                        <img src="/static/images/obs_master.png" class="logo"> 
                         <div class="toggleDiv">
                             <p class="toggleText">Dark Mode</p>
                             <a id="toDark" href="">
-                                <img src="static/images/BC_White/ToggleDark.svg" class="toggle-icon"> 
+                                <img src="/static/images/BC_White/ToggleDark.svg" class="toggle-icon"> 
                             </a>
                         </div>
                     </div>
                     <div class="infoDiv">
-                        <label class="fullNameLabel" id="fullName"></label>
-                        <div class="jobTitlesDiv"></div>
+                        <label class="fullNameLabel" id="fullName">
+                            {{ first_name }} {{ last_name }}
+                        </label>
+                        <div class="jobTitlesDiv">
+                            {% for line in job_title %}
+                                <label>{{ line }}</label>
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="contactInfoDiv">
                         <div class="contactInfoCardDiv">
-                            <a class="icons" id="vcf" href="">
-                                <img class="contact-image" src="static/images/BC_Black/Call.svg" width="50" height="50">
+                            <a class="icons" id="vcf" href="../contacts/{{ username }}">
+                                <img class="contact-image" src="/static/images/BC_Black/Call.svg" width="50" height="50">
                             </a>
                             <label class="iconsLabel">
                                 Call
                             </label>
                         </div>
                         <div class="contactInfoCardDiv">
-                            <a class="icons" id="linkedinLink" target="_blank">
-                                <img class="contact-image" src="static/images/BC_White/LinkedIn.svg" width="50" height="50">
+                            <a class="icons" id="linkedinLink" target="_blank" href="{{ linkedin }}">
+                                <img class="contact-image" src="/static/images/BC_White/LinkedIn.svg" width="50" height="50">
                             </a>
                             <label class="iconsLabel">
                                 LinkedIn
                             </label>
                         </div>
                         <div class="contactInfoCardDiv">
-                            <a class="icons" id="locationLink" >
-                                <img class="contact-image" src="static/images/BC_White/Email.svg" width="50" height="50">
+                            <a class="icons" id="locationLink" href="mailto:{{ email }}">
+                                <img class="contact-image" src="/static/images/BC_White/Email.svg" width="50" height="50">
                             </a>
                             <label class="iconsLabel">
                                 Email
                             </label>
                         </div>    
-                    </div>
-                    <div class="responsibiltyDiv2">
-                        <p id="responsibiltyP" style="color: grey; font-weight: bold; word-wrap: break-word;width: 100%"></p>
                     </div>
                 </div>
                 
@@ -66,8 +67,8 @@
                         </div>
                         <div class="qrDiv">
                             <p class="qrText">QR Code</p>
-                            <a id="qr" href="">
-                                <img class="contact-image" src="static/images/BC_White/QR.png" width="50" height="50">
+                            <a id="qr" href="../qr/{{ username }}">
+                                <img class="contact-image" src="/static/images/BC_White/QR.png" width="50" height="50">
                             </a>
                         </div>
                     </div>

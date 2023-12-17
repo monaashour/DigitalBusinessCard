@@ -1,1 +1,1 @@
-python3.9 manage.py runserver 0.0.0.0:8888
+python3 -m gunicorn bcard_external.wsgi --bind 127.0.0.1:9999
