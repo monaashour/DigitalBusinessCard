@@ -2,79 +2,81 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/static/styles/light.css">
+        <link rel="stylesheet" type="text/css" href="/static/styles/light.css" id="theme-stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>Business Card</title>
     </head>
     <body>
-        <div class="parentContainer">
-            <div class="cardMainDiv">
-                <div class="topDiv">
-                    <div class="logoDiv"> 
-                        <img src="/static/images/obs_master.png" class="logo"> 
-                        <div class="toggleDiv">
-                            <p class="toggleText">Dark Mode</p>
-                            <a id="toDark" href="">
-                                <img src="/static/images/BC_White/ToggleDark.svg" class="toggle-icon"> 
-                            </a>
-                        </div>
-                    </div>
-                    <div class="infoDiv">
-                        <label class="fullNameLabel" id="fullName">
-                            {{ first_name }} {{ last_name }}
-                        </label>
-                        <div class="jobTitlesDiv">
-                            {% for line in job_title %}
-                                <label>{{ line }}</label>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="contactInfoDiv">
-                        <div class="contactInfoCardDiv">
-                            <a class="icons" id="vcf" href="../contacts/{{ username }}">
-                                <img class="contact-image" src="/static/images/BC_Black/Call.svg" width="50" height="50">
-                            </a>
-                            <label class="iconsLabel">
-                                Call
-                            </label>
-                        </div>
-                        <div class="contactInfoCardDiv">
-                            <a class="icons" id="linkedinLink" target="_blank" href="{{ linkedin }}">
-                                <img class="contact-image" src="/static/images/BC_White/LinkedIn.svg" width="50" height="50">
-                            </a>
-                            <label class="iconsLabel">
-                                LinkedIn
-                            </label>
-                        </div>
-                        <div class="contactInfoCardDiv">
-                            <a class="icons" id="locationLink" href="mailto:{{ email }}">
-                                <img class="contact-image" src="/static/images/BC_White/Email.svg" width="50" height="50">
-                            </a>
-                            <label class="iconsLabel">
-                                Email
-                            </label>
-                        </div>    
+        <div class="parentContainer" style="border:3px black solid">
+            <div class="topDiv">
+                <div class="logoDiv"> 
+                    <img src="/static/images/obs_master.png" class="logo"> 
+                    <div class="toggleDiv">
+                        <p class="toggleText">Dark Mode</p>
+                        <a id="toggle-theme-button">
+                            <img src="/static/images/BC_White/toggle.svg" class="toggle-icon"> 
+                        </a>
                     </div>
                 </div>
-                
-                <div class="bottomDiv">
-                    <div class="ib-footer">
-                        <div>
-                            Powered by&nbsp;
-                            <a style="color:#ff7900;text-decoration: underline;" target="_blank" href="https://www.orange-business.com">Orange Business </a>
-                        </div>
-                        <div class="qrDiv">
-                            <p class="qrText">QR Code</p>
-                            <a id="qr" href="../qr/{{ username }}">
-                                <img class="contact-image" src="/static/images/BC_White/QR.png" width="50" height="50">
-                            </a>
-                        </div>
+                <div class="infoDiv">
+                    <label class="fullNameLabel" id="fullName">
+                        {{ first_name }} {{ last_name }}
+                    </label>
+                    <div class="jobTitlesDiv">
+                        {% for line in job_title %}
+                            <label class="jobTitleLabel">{{ line }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="contactInfoDiv">
+                    <div class="contactInfoCardDiv">
+                        <a class="icons" id="vcf" href="/media/contacts/{{ username }}.vcf">
+                            <img class="contact-image" src="/static/images/BC_White/Call.svg" width="50" height="50">
+                        </a>
+                        <label class="iconsLabel">
+                            Call
+                        </label>
+                    </div>
+                    {% if linkedin %}
+                    <div class="contactInfoCardDiv">
+                        <a class="icons" id="linkedinLink" target="_blank" href="{{ linkedin }}">
+                            <img class="contact-image" src="/static/images/BC_White/LinkedIn.svg" width="50" height="50">
+                        </a>
+                        <label class="iconsLabel">
+                            LinkedIn
+                        </label>
+                    </div>
+                    {% endif %}
+                    <div class="contactInfoCardDiv">
+                        <a class="icons" id="locationLink" href="mailto:{{ email }}">
+                            <img class="contact-image" src="/static/images/BC_White/Email.svg" width="50" height="50">
+                        </a>
+                        <label class="iconsLabel">
+                            Email
+                        </label>
+                    </div>    
+                </div>
+                <div class="ib-footer">
+                    <div>
+                        <span id='powered-by'>Powered by</span>
+                        &nbsp;
+                        <a style="color:#ff7900;text-decoration: underline;" target="_blank" href="https://www.orange-business.com">Orange Business </a>
+                    </div>
+                    <div class="qrDiv">
+                        <a id="qr" href="/media/pass/{{ username }}.pkpass">
+                            <img class="contact-image" src="/static/images/BC_White/wallet.png">
+                        </a>
+                    </div>
+                    <div class="qrDiv">
+                        <a id="qr" href="/media/qrcode/{{ username }}.jpg">
+                            <img class="contact-image" src="/static/images/BC_White/QR.png">
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </body>
-    <script src="./settings.js" defer></script>
+    <script src="/static/js/script.js" defer></script>
 </html>
