@@ -120,14 +120,16 @@ def encode_image(username):
     return r
 
 
-ATTENDEES_FILE = '/home/cloud/bcard/attendees.xlsx'
+ATTENDEES_FILE = '/home/cloud/bcard/Digital BCards_MEA SKO24_v1.0.xlsx'
 IMAGES_DIR = '/home/cloud/bcard/images/'
+REGION = 'MEA'
 
 
 df = pd.read_excel(ATTENDEES_FILE, dtype=str)
 
-df.drop(df.loc[df['attending'].isnull()].index, inplace=True)
-df.drop(df.loc[df['Title revisted'].isnull()].index, inplace=True)
+# Europe
+# df.drop(df.loc[df['attending'].isnull()].index, inplace=True)
+# df.drop(df.loc[df['Title revisted'].isnull()].index, inplace=True)
 
 print('read attendees') 
 print(df.shape)
@@ -136,17 +138,17 @@ print(df.shape)
 sales = []
 
 for i, user in df.iterrows():
-	details = {
-		'first_name': user.iloc[1],
-		'last_name': user.iloc[2],
-		'email': user.iloc[3],
-		'phone': user.iloc[9],
-		'linkedin': (user.iloc[11] if 'linkedin.com' in str(user.iloc[11]) else None),
-		'job_title': [
-			user.iloc[5],
-		],
-	}
-	sales.append(details)
+    details = {
+        'first_name': user.iloc[1],
+        'last_name': user.iloc[2],
+        'email': user.iloc[5],
+        'phone': '+' + user.iloc[4],
+        'linkedin': (user.iloc[9] if 'linkedin.com' in str(user.iloc[9]) else None),
+        'job_title': [
+            user.iloc[7] if not type(user.iloc[7]) == float else user.iloc[6],
+        ],
+    }
+    sales.append(details)
 
 print('fetched users to dict')
 
@@ -159,22 +161,22 @@ for employee in sales:
     else:
         employee['image'] = None
     
-    if employee['username'] == 'ahmed.tag':
-        pprint(employee)
-
 print('added extra details to dict')
 
 for employee in sales:
+    if User.objects.filter(username=employee['username']):
+        print(f'!! user {employee["username"]} already exists. SKIPPING\n------------')
+        continue
+
     user = User.objects.create_user(
         username = employee['username'],
         email = employee['email'],
         first_name = employee['first_name'],
         last_name = employee['last_name']
     )
-    user.set_unusable_password()
     user.save()
 
-    print('added user to db')
+    print(f'added {user.username} to db')
 
     card = Card.objects.create(
         owner = user,
@@ -182,10 +184,11 @@ for employee in sales:
         phone = employee['phone'],
         job_title = json.dumps(employee['job_title']),
         photo_b64 = encode_image(user.username),
+        region = REGION
     )
     card.save()
 
-    print('added card to db')
+    print(f'added card {card.owner.username} to db')
 
     url = f'https://www.utoptify.com:{os.getenv("HOST_PORT")}/cards/' + user.username
 
@@ -196,3 +199,4 @@ for employee in sales:
     print('generated vcard')
     generate_apple_pass(user, url, os.path.join(media_dir, 'pass'))
     print('generated pkpass')
+    print(f'{user.username} ADDED\n------------')
