@@ -8,6 +8,7 @@ class Card(models.Model):
     linkedin = models.URLField(null=True, default=None)
     phone = models.CharField(max_length=20, null=True, default=None)
     job_title = models.CharField(max_length=300)
+    region = models.CharField(max_length=20, default='Europe')
     is_active = models.BooleanField(default=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
