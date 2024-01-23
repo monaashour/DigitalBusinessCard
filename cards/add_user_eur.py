@@ -129,7 +129,7 @@ df = pd.read_excel(ATTENDEES_FILE, dtype=str)
 
 # Europe
 df.drop(df.loc[df['attending'].isnull()].index, inplace=True)
-df.drop(df.loc[df['Title revisted'].isnull()].index, inplace=True)
+# df.drop(df.loc[df['Title revisted'].isnull()].index, inplace=True)
 
 print('read attendees') 
 print(df.shape)
