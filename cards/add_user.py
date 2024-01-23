@@ -78,7 +78,7 @@ def generate_apple_pass(user, url, directory):
     applepassgenerator_client = ApplePassGeneratorClient(team_identifier, pass_type_identifier, organization_name)
     apple_pass = applepassgenerator_client.get_pass(card_info)
 
-    apple_pass.logo_text = 'Orange Business'
+    apple_pass.logo_text = 'Business'
     apple_pass.barcode = Barcode(url, BarcodeFormat.QR, 'www.orange-business.com')
 
     apple_pass.add_file("logo.png", open(ORANGE_LOGO_FILE, "rb"))
