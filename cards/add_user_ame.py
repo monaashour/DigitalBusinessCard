@@ -139,8 +139,8 @@ sales = []
 
 for i, user in df.iterrows():
     details = {
-        'first_name': user.iloc[1],
-        'last_name': user.iloc[2],
+        'first_name': user.iloc[2],
+        'last_name': user.iloc[1],
         'email': user.iloc[3],
         'phone': str(user.iloc[7]).strip().strip("'"),
         'linkedin': user.iloc[9] if 'linkedin.com' in str(user.iloc[9]) else None,
