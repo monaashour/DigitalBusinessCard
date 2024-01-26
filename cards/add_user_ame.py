@@ -139,16 +139,17 @@ sales = []
 
 for i, user in df.iterrows():
     details = {
-        'first_name': user.iloc[0],
-        'last_name': user.iloc[1],
-        'email': user.iloc[2],
-        'phone': str(user.iloc[5]).strip("'"),
-        'linkedin': (user.iloc[7] if 'linkedin.com' in str(user.iloc[7]) else None),
+        'first_name': user.iloc[1],
+        'last_name': user.iloc[2],
+        'email': user.iloc[3],
+        'phone': str(user.iloc[7]).strip().strip("'"),
+        'linkedin': user.iloc[9] if 'linkedin.com' in str(user.iloc[9]) else None,
         'job_title': [
-            user.iloc[4] if type(user.iloc[4]) != float else user.iloc[3],
+            user.iloc[6] if type(user.iloc[6]) != float else user.iloc[5],
         ],
     }
     sales.append(details)
+    pprint(details)
 
 print('fetched users to dict')
 
