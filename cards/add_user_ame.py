@@ -142,7 +142,7 @@ for i, user in df.iterrows():
         'first_name': user.iloc[0],
         'last_name': user.iloc[1],
         'email': user.iloc[2],
-        # 'phone': user.iloc[5].strip("'") if user.iloc[5],
+        'phone': user.iloc[5].strip("'"),
         'linkedin': (user.iloc[7] if 'linkedin.com' in str(user.iloc[7]) else None),
         'job_title': [
             user.iloc[4] if type(user.iloc[4]) != float else user.iloc[3],
