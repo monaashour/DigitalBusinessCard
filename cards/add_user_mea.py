@@ -120,7 +120,8 @@ def encode_image(username):
     return r
 
 
-ATTENDEES_FILE = '/home/cloud/bcard/Digital BCards_MEA SKO24_v1.0.xlsx'
+# ATTENDEES_FILE = '/home/cloud/bcard/Digital BCards_MEA SKO24_v1.0.xlsx'
+ATTENDEES_FILE = '/home/cloud/bcard/extra_mea_cards.xlsx'
 IMAGES_DIR = '/home/cloud/bcard/images/'
 REGION = 'MEA'
 
@@ -142,7 +143,7 @@ for i, user in df.iterrows():
         'first_name': user.iloc[1],
         'last_name': user.iloc[2],
         'email': user.iloc[5],
-        'phone': '+' + user.iloc[4],
+        'phone': '+' + str(user.iloc[4]).strip().strip("'").strip('+'),
         'linkedin': (user.iloc[9] if 'linkedin.com' in str(user.iloc[9]) else None),
         'job_title': [
             user.iloc[7] if not type(user.iloc[7]) == float else user.iloc[6],
