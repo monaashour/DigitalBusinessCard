@@ -120,7 +120,7 @@ def encode_image(username):
     return r
 
 
-ATTENDEES_FILE = '/home/cloud/bcard/APAC QRbusinesscard 22 feb.xlsx'
+ATTENDEES_FILE = '/home/cloud/bcard/apac_new_batch_1.xlsx'
 IMAGES_DIR = '/home/cloud/bcard/images/'
 REGION = 'APAC'
 
