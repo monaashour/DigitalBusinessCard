@@ -14,14 +14,22 @@ dotenv.load_dotenv()
 
 def display_view(request, username):
     user = get_object_or_404(User, username=username)
+
+    break_titles = []
+    for i in json.loads(user.card.job_title):
+        for j in i.split('\n'):
+            break_titles.append(j)
+
     context = {
         'username': user.username,
         'first_name': user.first_name,
         'last_name': user.last_name,
         'email': user.email,
-        'job_title': json.loads(user.card.job_title),
+        'job_title': break_titles,
         'linkedin': user.card.linkedin,
     }
+    print(context)
+
     return render(request, 'cards/card.html', context=context)
 
 

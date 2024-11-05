@@ -120,7 +120,7 @@ def encode_image(username):
     return r
 
 
-ATTENDEES_FILE = '/home/cloud/bcard/apac_new_batch_1.xlsx'
+ATTENDEES_FILE = '/home/cloud/bcard/GSLT - BusinessCardsData - 12 Sep 2024.xlsx'
 IMAGES_DIR = '/home/cloud/bcard/images/'
 REGION = 'APAC'
 
