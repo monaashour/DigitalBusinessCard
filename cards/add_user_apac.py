@@ -149,7 +149,7 @@ print('fetched users to dict')
 
 for employee in sales:
     employee['username'] = employee['email'].split('@')[0]
-    employee['job_title'].append('Orange Business')
+    employee['job_title']
 
     if pathlib.Path(IMAGES_DIR + employee['username'] + '.jpg').is_file():
         employee['image'] = IMAGES_DIR + employee['username'] + '.jpg'
