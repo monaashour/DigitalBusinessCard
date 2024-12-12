@@ -3,7 +3,6 @@ import base64
 import json
 import pathlib
 from urllib.parse import unquote
-from pprint import pprint
 
 import dotenv
 import qrcode
@@ -14,6 +13,7 @@ from qrcode.image.styles.moduledrawers import RoundedModuleDrawer
 from applepassgenerator.client import ApplePassGeneratorClient
 from applepassgenerator.models import Generic, Barcode, BarcodeFormat
 from django.contrib.auth.models import User
+from pathlib import Path
 
 from cards.models import Card    
 
@@ -22,6 +22,8 @@ dotenv.load_dotenv()
 pd.set_option('display.max_rows', 1000)
 pd.set_option('display.max_columns', 1000)
 
+CURRENT_WORKING_DIR = Path(__file__).resolve().parent
+HOST_URL = os.getenv('HOST_URL')
 
 def generate_vcard(user, directory):
     v = vobject.vCard()
@@ -59,7 +61,7 @@ def generate_vcard(user, directory):
 
 
 def generate_apple_pass(user, url, directory):
-    ORANGE_LOGO_FILE = r'/home/cloud/bcard/code/dev/backend/cards/orange_logo.png'
+    ORANGE_LOGO_FILE = CURRENT_WORKING_DIR / 'orange_logo.png'
     CERTS_DIR = os.getenv('CERTS_DIR')
     
     card_info = Generic()
@@ -94,7 +96,7 @@ def generate_apple_pass(user, url, directory):
 
 
 def generate_qrcode(username, url, directory):
-    LOGO_IMAGE_FILE = r'/home/cloud/bcard/code/dev/backend/cards/orange_logo.png'
+    LOGO_IMAGE_FILE = CURRENT_WORKING_DIR / 'orange_logo.png'
     filename = os.path.join(directory, username + '.jpg')
 
     qr = qrcode.QRCode(
@@ -112,16 +114,16 @@ def generate_qrcode(username, url, directory):
 
 
 def encode_image(username):
-    filename = IMAGES_DIR + username + '.jpg'
-    if not pathlib.Path(filename).is_file():
+    filename = IMAGES_DIR / f"{username}.jpg"
+    if not filename.is_file():
         return None
     with open(filename , 'rb') as f:
         r = base64.b64encode(f.read()).decode('ascii')
     return r
 
 
-ATTENDEES_FILE = '/home/cloud/bcard/GSLT - BusinessCardsData - 12 Sep 2024.xlsx'
-IMAGES_DIR = '/home/cloud/bcard/images/'
+ATTENDEES_FILE = CURRENT_WORKING_DIR.parent / 'GSLT - BusinessCardsData - 12 Sep 2024.xlsx'
+IMAGES_DIR = CURRENT_WORKING_DIR.parent.parent / 'images'
 REGION = 'APAC'
 
 
@@ -136,11 +138,11 @@ for i, user in df.iterrows():
     details = {
         'first_name': user.iloc[0],
         'last_name': user.iloc[1],
-        'email': user.iloc[2],
+        'email': user.iloc[3],
         'phone': '+' + str(user.iloc[4]).strip().strip("'").strip('+'),
         'linkedin': (user.iloc[5] if 'linkedin.com' in str(user.iloc[5]) else None),
         'job_title': [
-            user.iloc[3],
+            user.iloc[2],
         ],
     }
     sales.append(details)
@@ -151,7 +153,7 @@ for employee in sales:
     employee['username'] = employee['email'].split('@')[0]
     employee['job_title']
 
-    if pathlib.Path(IMAGES_DIR + employee['username'] + '.jpg').is_file():
+    if (IMAGES_DIR / f"{employee['username']}.jpg").is_file():
         employee['image'] = IMAGES_DIR + employee['username'] + '.jpg'
     else:
         employee['image'] = None
@@ -185,13 +187,13 @@ for employee in sales:
 
     print(f'added card {card.owner.username} to db')
 
-    url = f'https://www.utoptify.com:{os.getenv("HOST_PORT")}/cards/' + user.username
+    url = f'{HOST_URL}/cards/' + user.username
 
-    media_dir = os.getenv('MEDIA_DIR')
+    media_dir = CURRENT_WORKING_DIR.parent / 'media'
     generate_qrcode(user.username, url, os.path.join(media_dir, 'qrcode'))
     print('generated qrcode')
     generate_vcard(user, os.path.join(media_dir, 'contacts'))
     print('generated vcard')
-    generate_apple_pass(user, url, os.path.join(media_dir, 'pass'))
-    print('generated pkpass')
+    # generate_apple_pass(user, url, os.path.join(media_dir, 'pass'))
+    # print('generated pkpass')
     print(f'{user.username} ADDED\n------------')
