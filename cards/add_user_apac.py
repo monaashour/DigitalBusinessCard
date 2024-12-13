@@ -138,7 +138,7 @@ for i, user in df.iterrows():
     details = {
         'first_name': user.iloc[0],
         'last_name': user.iloc[1],
-        'email': user.iloc[3],
+        'email': user.iloc[3].lower(),
         'phone': '+' + str(user.iloc[4]).strip().strip("'").strip('+'),
         'linkedin': (user.iloc[5] if 'linkedin.com' in str(user.iloc[5]) else None),
         'job_title': [
@@ -161,39 +161,44 @@ for employee in sales:
 print('added extra details to dict')
 
 for employee in sales:
-    if User.objects.filter(username=employee['username']):
-        print(f'!! user {employee["username"]} already exists. SKIPPING\n------------')
+    is_user = User.objects.filter(username=employee['username'])
+    is_card = Card.objects.filter(owner__username=employee['username'])
+
+    if is_user and is_card:
+        print(f'!! user {employee["username"]} and card already exist. SKIPPING\n------------')
         continue
 
-    user = User.objects.create_user(
-        username = employee['username'],
-        email = employee['email'],
-        first_name = employee['first_name'],
-        last_name = employee['last_name']
-    )
-    user.save()
+    if not is_user:
+        user = User.objects.create_user(
+            username=employee['username'],
+            email=employee['email'],
+            first_name=employee['first_name'],
+            last_name=employee['last_name']
+        )
+        user.save()
+        print(f'added {user.username} to db')
+    else:
+        user = User.objects.get(username=employee['username'])
 
-    print(f'added {user.username} to db')
+    if not is_card:
+        card = Card.objects.create(
+            owner=user,
+            linkedin=employee['linkedin'],
+            phone=employee['phone'],
+            job_title=json.dumps(employee['job_title']),
+            photo_b64=encode_image(user.username),
+            region=REGION
+        )
+        card.save()
+        print(f'added card {card.owner.username} to db')
 
-    card = Card.objects.create(
-        owner = user,
-        linkedin = employee['linkedin'],
-        phone = employee['phone'],
-        job_title = json.dumps(employee['job_title']),
-        photo_b64 = encode_image(user.username),
-        region = REGION
-    )
-    card.save()
+        url = f'{HOST_URL}/cards/' + user.username
 
-    print(f'added card {card.owner.username} to db')
-
-    url = f'{HOST_URL}/cards/' + user.username
-
-    media_dir = CURRENT_WORKING_DIR.parent / 'media'
-    generate_qrcode(user.username, url, os.path.join(media_dir, 'qrcode'))
-    print('generated qrcode')
-    generate_vcard(user, os.path.join(media_dir, 'contacts'))
-    print('generated vcard')
-    # generate_apple_pass(user, url, os.path.join(media_dir, 'pass'))
-    # print('generated pkpass')
-    print(f'{user.username} ADDED\n------------')
+        media_dir = CURRENT_WORKING_DIR.parent / 'media'
+        generate_qrcode(user.username, url, os.path.join(media_dir, 'qrcode'))
+        print('generated qrcode')
+        generate_vcard(user, os.path.join(media_dir, 'contacts'))
+        print('generated vcard')
+        # generate_apple_pass(user, url, os.path.join(media_dir, 'pass'))
+        # print('generated pkpass')
+        print(f'{user.username} ADDED\n------------')
